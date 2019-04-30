@@ -1,0 +1,41 @@
+{
+  "name": "rickandmortyapi",
+  "version": "1.0.0",
+  "description": "Api consumida con ReactJS",
+  "main": "index.js",
+  "scripts": {
+    "build:prod": "webpack -p -w --env.NODE_ENV=production",
+    "build:dev": "webpack-dev-server --env.NODE_ENV=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rafael-LH/RickAndMortyAPI.git"
+  },
+  "keywords": [
+    "Webpack",
+    "API",
+    "ReactJS"
+  ],
+  "author": "Rafael Lopez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rafael-LH/RickAndMortyAPI/issues"
+  },
+  "homepage": "https://github.com/Rafael-LH/RickAndMortyAPI#readme",
+  "dependencies": {
+    "@babel/polyfill": "7.4.4",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.4",
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/preset-env": "7.4.4",
+    "@babel/preset-react": "7.0.0",
+    "babel-loader": "8.0.5",
+    "url-loader": "1.1.2",
+    "webpack": "4.30.0",
+    "webpack-cli": "3.3.1",
+    "webpack-dev-server": "3.3.1"
+  }
+}
