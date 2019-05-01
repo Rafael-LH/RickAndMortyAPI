@@ -1,8 +1,13 @@
 import React,{Component} from 'react'
 import logo from '../images/logo.png'
+import CharacterCard from '../components/CharacterCard'
+
 
     export default class Home extends Component{
                     state = {
+                        loading: true,
+                        error: false,
+                        messageError: '',
                         data: {
                             results: []
                         },
@@ -13,16 +18,28 @@ import logo from '../images/logo.png'
                 // fetchCharacters = () async => {
                 fetchCharacters() {
                             
-                        // let response = await fetch('https://rickandmortyapi.com/api/character/')
-                        // let responseData = await response.json()
+                        //  let response = await fetch('https://rickandmortyapi.com/api/character/')
+                        //  let responseData = await response.json()
 
                         fetch('https://rickandmortyapi.com/api/character/')
                         .then(response => response.json() )
                         .then(responseData => {
                             this.setState({
-                                data: responseData 
+                                data: responseData,
+                                loading: false,
                             })
                         })
+                        .catch(err => {
+                        
+                            console.log(`Ha ocurrido un error ${err}`)
+
+                            this.setState({
+                                  loading: false,
+                                  error: true,
+                                  messageError: `Ha ocurrido un error ${err}`
+                            })
+                          
+                        });
 
                 };
 
@@ -37,20 +54,29 @@ import logo from '../images/logo.png'
                             <ul className="row">
                               {
                                 results.map(character => (
-                                <li className="col-6 col-md-3" key={character.id}>
-                                    <p>{character.name}</p>
-                                  {/* <CharacterCard character={character} /> */}
+                                <li className="col-12 col-sm-6 col-md-4" key={character.id}>
+                                    <div className="container-card mb-3">
+                                        <img src={character.image} className="card-img-top" alt="..." />
+                                        <div className="card-body">
+                                            <h5 className="card-title">{character.name}</h5>
+                                        </div>
+                                    </div>
                                 </li>
                                   )
                                 )
                               }
                             </ul>
                   
-                            {/* {this.state.loading && <p className="text-center">Loading...</p>}
-                  
-                            {!this.state.loading && this.state.data.info.next && (
-                              <button onClick={() => this.fetchCharacters()}>Load More</button>
-                            )} */}
+                              {
+                                this.state.loading && 
+                                    <h1>Cargando....</h1>
+                              }  
+
+                             {
+                               this.state.error && 
+                                <h1>{this.state.messageError}</h1>
+                             }   
+
                           </div>
                         </div>
                       );
