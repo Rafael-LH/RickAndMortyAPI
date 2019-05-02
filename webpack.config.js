@@ -6,7 +6,7 @@ module.exports = env => {
        mode: env.NODE_ENV,
        entry:{
            index: path.resolve(__dirname, './src/index.js'),
-           '@babel/polyfill': ['@babel/polyfill'],
+        //    '@babel/polyfill': ['@babel/polyfill'],
        },
        output:{
            path: path.resolve(__dirname, 'dist'),
