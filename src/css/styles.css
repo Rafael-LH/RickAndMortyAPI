@@ -113,4 +113,15 @@
     margin: 0px !important;
     padding: 10px 0px 0px 0px;
   }
+
+  .container-btn{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      margin-bottom: 20px;
+  }
+  .container-btn button {
+        width: 170px;
+  }
   

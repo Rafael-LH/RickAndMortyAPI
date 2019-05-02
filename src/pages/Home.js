@@ -5,6 +5,7 @@ import CharacterCard from '../components/CharacterCard'
 
     export default class Home extends Component{
                     state = {
+                        nextPage: 1,
                         loading: true,
                         error: false,
                         messageError: '',
@@ -18,34 +19,45 @@ import CharacterCard from '../components/CharacterCard'
                 // fetchCharacters = () async => {
                 fetchCharacters() {
                             
-                        //  let response = await fetch('https://rickandmortyapi.com/api/character/')
+                        //  let response = await fetch("https://rickandmortyapi.com/api/character/"")
                         //  let responseData = await response.json()
+                        this.setState({
+                          loading: true
+                        })
 
-                        fetch('https://rickandmortyapi.com/api/character/')
+                        fetch(`https://rickandmortyapi.com/api/character?page=${this.state.nextPage}`)
                         .then(response => response.json() )
                         .then(responseData => {
                             this.setState({
-                                data: responseData,
+                                data:{
+                                  info: responseData.info,
+                                  // en esta parte estamos concatenando informacion para no perder la anterior a la hora de cargar mas 
+                                  // personajes
+                                  results: [].concat(
+                                    // estoy concatenando los resultados que ya tengo con
+                                      this.state.data.results,
+                                    //los nuevos datos que me llegaron con la nueva peticion  
+                                      responseData.results
+                                  )  
+                                } ,
                                 loading: false,
+                                nextPage: this.state.nextPage + 1 
                             })
                         })
                         .catch(err => {
-                        
-                            console.log(`Ha ocurrido un error ${err}`)
-
                             this.setState({
                                   loading: false,
                                   error: true,
                                   messageError: `Ha ocurrido un error ${err}`
                             })
-                          
                         });
 
                 };
 
                 render(){
+                    // destructuracion del objeto
                     let {results} = this.state.data
-
+                    // console.log(this.state.data.info)
                     return (
                         <div className="container">
                           <div className="App">
@@ -55,12 +67,7 @@ import CharacterCard from '../components/CharacterCard'
                               {
                                 results.map(character => (
                                 <li className="col-12 col-sm-6 col-md-4" key={character.id}>
-                                    <div className="container-card mb-3">
-                                        <img src={character.image} className="card-img-top" alt="..." />
-                                        <div className="card-body">
-                                            <h5 className="card-title">{character.name}</h5>
-                                        </div>
-                                    </div>
+                                    <CharacterCard character={character} />
                                 </li>
                                   )
                                 )
@@ -76,6 +83,14 @@ import CharacterCard from '../components/CharacterCard'
                                this.state.error && 
                                 <h1>{this.state.messageError}</h1>
                              }   
+
+                             {
+                               !this.state.loading &&
+                               <div className="container-btn">
+                                  {/* en esta parte llamamos a la funcion que creamos en la parte de arriba la cual nos trae los personajes */}
+                                  <button className="btn btn-outline-info" onClick={() => this.fetchCharacters() }>Load More</button>
+                               </div> 
+                             }
 
                           </div>
                         </div>
